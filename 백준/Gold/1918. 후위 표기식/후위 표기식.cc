@@ -7,13 +7,9 @@ stack<char> ops;
 
 int precedence(char op)
 {
-    switch (op)
-    {
-    case '(': case')': return 0;
-    case '+': case'-': return 1; // 우선순위 중간
-    case '*': case'/': return 2; // 우선순위 높음
-    }
-    return -1;
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0;
 }
 
 int main()
@@ -24,19 +20,13 @@ int main()
     int len = strlen(c);
     for (int i = 0; i < len; i++)
     {
-        if (c[i] >= 'A')
-        {
-            cout << c[i];
-        }
-        else if (c[i] == '(')
-        {
-            ops.push(c[i]);
-        }
+        if (c[i] >= 'A') cout << c[i];         
+        else if (c[i] == '(') ops.push(c[i]);
         else if (c[i] == ')')
         {
             while (!ops.empty())
             {
-                char op = ops.top();
+                char op = ops.top();     
                 ops.pop();
                 if (op == '(') break;
                 else cout << op;
@@ -64,6 +54,5 @@ int main()
         ops.pop();
     }
 
-    
     return 0;
 }
