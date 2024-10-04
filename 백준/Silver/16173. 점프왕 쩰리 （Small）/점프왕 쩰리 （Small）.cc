@@ -44,10 +44,11 @@ int main()
         for (int j = 0; j < N; j++)
         {
             int num; cin >> num;
+            int idx = i * N + j;
             // 오른쪽 이동
-            if (j + num < N) adj[i * N + j].push_back(i * N + j + num);
+            if (j + num < N) adj[idx].push_back(idx+ num);
             // 아래쪽 이동
-            if (i * N + j + num * N <= N*N-N+j)  adj[i * N + j].push_back(i * N + j + num * N);
+            if (idx + num * N < N*N)  adj[idx].push_back(idx + num * N);
         }
     }
 
