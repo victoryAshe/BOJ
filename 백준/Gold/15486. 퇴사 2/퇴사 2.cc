@@ -2,8 +2,7 @@
 #include <cmath>
 using namespace std;
 
-const int MAX = 1500001;
-int T[MAX], P[MAX], dp[MAX];
+int dp[1500001];
 
 int main()
 {
@@ -14,10 +13,11 @@ int main()
     cin >> N;
     for (int i = 1; i <= N+1; i++)
     {
-        if(i<N+1)cin >> T[i] >> P[i];
+        int t = 0, p = 0;
+        if(i<N+1) cin >> t >> p;
         income = max(income, dp[i]);
-        int incomeDay = i + T[i];
-        if (incomeDay <= N + 1) dp[incomeDay] = max(dp[incomeDay], P[i] + income);
+        int incomeDay = i + t;
+        if (incomeDay <= N + 1) dp[incomeDay] = max(dp[incomeDay], p + income);
     }
     cout << income;
 
