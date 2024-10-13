@@ -38,13 +38,13 @@ int main()
         for (int j = 1; j <= N; j++)
         {
             if (i == j) continue;
-            if (binarySearch(i, j, A[i] - A[j]) !=-1)
+            int target = A[i] - A[j];
+            if (binarySearch(i, j, target) !=-1)
             {
                 isFound = true;
                 break;
             }
         }
-
         if (isFound) good++;
     }
     cout << good;
