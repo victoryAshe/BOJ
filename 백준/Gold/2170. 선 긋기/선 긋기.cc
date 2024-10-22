@@ -7,8 +7,7 @@ bool visit[1000001] = { false, };
 
 bool comp(pair<int, int>& a, pair<int, int>& b)
 {
-	if (a.first != b.first) return a.first < b.first;
-	return a.second < b.second;
+	return a.first != b.first ? a.first < b.first : a.second < b.second;
 }
 
 int isOverlapped(pair<int, int>& a, pair<int, int>& b)
@@ -20,8 +19,7 @@ int isOverlapped(pair<int, int>& a, pair<int, int>& b)
 
 int len(int a, int b)
 {
-	if (b - a > 0) return b - a;
-	return -(b-a);
+	return b - a > 0 ? b - a : -(b - a);
 }
 
 int main()
@@ -39,13 +37,12 @@ int main()
 	}
 
 	sort(lines.begin(), lines.end(), comp);
-	
+
 	int result = 0;
 	for (int i = 0; i < N; i++)
 	{
 		if (visit[i]) continue;
 		pair<int, int> overlapTarget = lines[i];
-		int maxY = lines[i].second;
 		visit[i] = true;
 		for (int j = i + 1; j < N; j++)
 		{
@@ -53,16 +50,15 @@ int main()
 			if (overlapResult == 0) break;
 			else if (overlapResult == 1)
 			{
-				if (maxY < lines[j].second)
+				if (overlapTarget.second < lines[j].second)
 				{
-					maxY = lines[j].second;
-					overlapTarget.second = maxY;
+					overlapTarget.second = lines[j].second;
 				}
 			}
 
 			visit[j] = true;
 		}
-		result += len(lines[i].first, maxY);
+		result += len(overlapTarget.first, overlapTarget.second);
 	}
 	cout << result;
 
