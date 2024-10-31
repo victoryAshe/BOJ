@@ -4,7 +4,8 @@
 #include <cmath>
 using namespace std;
 
-int dp[20000001]; // [curMemory]: curCost
+const int MAX = 10001;
+int dp[MAX]; // [curCost]: curMemory
 pair<int, int> apps[101] = {make_pair(0,0),}; // memory, cost
 
 bool comp(pair<int, int>& a, pair<int, int>& b)
@@ -32,19 +33,17 @@ int main()
 		pair<int, int> curApp = apps[i];
 		if (curApp.first < M)
 		{
-			int availableMemory = M - 1 + curApp.first;
-			for (int j = availableMemory; j >= 1; j--)
+			int curMaxCost = MAX - 1 - curApp.second;
+			for (int i = curMaxCost; i >= 0; i--)
 			{
-				if (dp[j] == -1) continue;
-				int curMemory = j + curApp.first;
-				if (dp[curMemory] == -1) dp[curMemory] = dp[j] + curApp.second;
-				else dp[curMemory] = min(dp[curMemory], dp[j] + curApp.second);
-				if (curMemory >= M) result = min(result, dp[curMemory]);
+				if (dp[i] == -1) continue;
+				int curCost = i + curApp.second;
+				dp[curCost] = max(dp[curCost], dp[i] + curApp.first);
+				if (dp[curCost] >= M) result = min(result, curCost);
 			}
 		}
-		if (dp[curApp.first] == -1) dp[curApp.first] = curApp.second;
-		else dp[curApp.first] = min(dp[curApp.first], curApp.second);
-		if (curApp.first >= M) result = min(result, dp[curApp.first]);
+		dp[curApp.second] = max(dp[curApp.second], curApp.first);
+		if (dp[curApp.second] >= M) result = min(result, curApp.second);
 	}
 	cout << result;
 	return 0;
