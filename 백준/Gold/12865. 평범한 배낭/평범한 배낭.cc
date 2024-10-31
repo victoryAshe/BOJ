@@ -34,6 +34,7 @@ int main()
     for (int i = 1; i <= N; i++)
     {
         pair<int, int> curStuff = stuffs[i];
+        if (curStuff.first > K) continue;
         int weightCanHandle = K - curStuff.first;
         for (int j = weightCanHandle; j >=1; j--)
         {
@@ -42,7 +43,6 @@ int main()
             bag[curWeight] = max(bag[curWeight], bag[j] + curStuff.second);
             result = max(result, bag[curWeight]);
         }
-        if (curStuff.first > K) continue;
         bag[curStuff.first] = max(bag[curStuff.first], curStuff.second);
         result = max(result, bag[curStuff.first]);
     }
