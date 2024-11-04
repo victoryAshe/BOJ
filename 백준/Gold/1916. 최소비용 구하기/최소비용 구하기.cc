@@ -3,18 +3,18 @@
 #include <queue>
 using namespace std;
 
-bool visit[1001];
-long long dist[1001];
+int dist[1001];
 vector<pair<int,int>> adj[1001]; // [start]: cost, end
 
 void BFS(int start)
 {
+    bool visit[1001] = {false, };
 	priority_queue<pair<long long, int>> pq;
 	pq.push({0, start});
 	visit[start] = true;
 	while (!pq.empty())
 	{
-		long long curDist = -pq.top().first;
+		int curDist = -pq.top().first;
 		int cur = pq.top().second;
 		pq.pop();
 		if (curDist > dist[cur]) continue;
