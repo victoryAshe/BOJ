@@ -2,17 +2,16 @@
 #include <cmath>
 #include <vector>
 #include <queue>
-#include <cstring>
 using namespace std;
 
 const int MAX = 10001;
 int maxCost = 0;
 vector<pair<int,int>> adj[MAX];
-bool visit[MAX];
 int Start, End;
 
 bool BFS(int curWeight)
 {
+	bool visit[MAX] = { false, };
 	queue<int> Q;
 	Q.push(Start);
 	visit[Start] = true;
@@ -59,7 +58,6 @@ int main()
 	int low = 0, high = maxCost;
 	while (low <= high)
 	{
-		memset(visit, false, sizeof(visit));
 		int mid = (high + low) / 2;
 		if (BFS(mid)) low = mid + 1;
 		else high = mid - 1;
