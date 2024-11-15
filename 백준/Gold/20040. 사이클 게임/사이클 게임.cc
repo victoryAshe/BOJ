@@ -49,9 +49,10 @@ int main()
 	{
 		int first, second;
 		cin >> first >> second;
-		if (result == 0 && isCycle(first, second))
+		if (isCycle(first, second))
 		{
 			result = i;
+            break;
 		}
 	}
 
