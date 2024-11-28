@@ -17,9 +17,9 @@ void Bellman_Ford()
 		{
 			int from = edge[j].first.first;
 			int to = edge[j].first.second;
-			long long nextDist = dist[from] + edge[j].second;
 
 			if (dist[from] == INF) continue;
+			long long nextDist = dist[from] + edge[j].second;
 			if (dist[to] > nextDist) dist[to] = nextDist;
 		}
 	}
@@ -30,10 +30,8 @@ void Bellman_Ford()
 	{
 		int from = edge[i].first.first;
 		int to = edge[i].first.second;
-		long long nextDist = dist[from] + edge[i].second;
-
 		if (dist[from] == INF) continue;
-		if (dist[to] > nextDist)
+		if (dist[to] > dist[from] + edge[i].second)
 		{
 			cout << "-1";
 			return;
@@ -52,7 +50,7 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	
+
 	cin >> N >> M;
 	for (int i = 2; i <= N; i++) dist[i] = INF;
 	for (int i = 0; i < M; i++)
