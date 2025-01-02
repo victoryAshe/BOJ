@@ -5,37 +5,34 @@
 #include <algorithm>
 using namespace std;
 
-const int MAX = 1001;
-bool visit[MAX];
-vector<int> adj[MAX];
-queue<int> Q;
+vector<int> adj[1001];
+bool visit[1001];
 
 void DFS(int cur)
 {
     visit[cur] = true;
     cout << cur << " ";
-
     int size = adj[cur].size();
     for (int i = 0; i < size; i++)
     {
         int next = adj[cur][i];
-        if (visit[next]) continue;
-        DFS(next);
+        if (!visit[next]) DFS(next);
     }
 }
 
 void BFS(int start)
 {
     memset(visit, false, sizeof(visit));
+    queue<int> Q;
+
     visit[start] = true;
-    cout << start << " ";
     Q.push(start);
 
     while (!Q.empty())
     {
         int cur = Q.front();
+        cout << cur << " ";
         Q.pop();
-
         int size = adj[cur].size();
         for (int i = 0; i < size; i++)
         {
@@ -44,7 +41,6 @@ void BFS(int start)
             {
                 Q.push(next);
                 visit[next] = true;
-                cout << next << " ";
             }
         }
     }
@@ -58,13 +54,12 @@ int main()
     int N, M, V;
     cin >> N >> M >> V;
 
-    // 간선 정보 입력
     for (int i = 0; i < M; i++)
     {
-        int start, end;
-        cin >> start >> end;
-        adj[start].push_back(end);
-        adj[end].push_back(start);
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
 
     for (int i = 1; i <= N; i++)
