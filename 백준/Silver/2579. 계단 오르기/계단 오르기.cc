@@ -2,9 +2,7 @@
 #include <cmath>
 using namespace std;
 
-const int MAX = 301;
-int cache[MAX][3];
-
+int cache[301][3];
 int N;
 
 int main()
