@@ -1,18 +1,11 @@
 #include <iostream>
 #include <vector>
-#include <map>
 #include <algorithm>
 using namespace std;
 
 int A[100];
 pair<int, int> B[100];
 vector<pair<int, int>> sequence;
-
-bool comp(const pair<int, int>& a, const pair<int, int>& b)
-{
-	if (a.first != b.first) return a.first > b.first;
-	return a.second < b.second;
-}
 
 int main()
 {
