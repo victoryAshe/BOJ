@@ -1,5 +1,5 @@
 #include <iostream>
-#include <algorithm>
+#include <cmath>
 using namespace std;
 
 int A[100000];
@@ -34,8 +34,6 @@ int main()
 	
 	cin >> N;
 	for (int i = 0; i < N; i++) cin >> A[i];
-
-	sort(A, A + N);
 
 	for (int i = 0; i <N; i++)
 	{
