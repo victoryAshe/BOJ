@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <queue>
 #include <vector>
 using namespace std;
@@ -21,7 +21,7 @@ struct cmp2
     }
 };
 
-map<int,int> problems;
+unordered_map<int,int> problems;
 priority_queue <pair<int, int>, vector<pair<int,int>>, cmp1> max_q;
 priority_queue <pair<int, int>, vector<pair<int, int>>, cmp2> min_q;
 
@@ -71,7 +71,7 @@ void Solve()
 
 int main()
 {
-    cin.tie(NULL);
+    cin.tie(NULL); cout.tie(NULL);
     ios::sync_with_stdio(false);
 
     int N;
