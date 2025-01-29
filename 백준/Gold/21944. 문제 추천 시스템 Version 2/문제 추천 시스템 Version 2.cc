@@ -3,39 +3,29 @@
 #include <set>
 using namespace std;
 
-struct Problem {
-	int P, L, G;
-	bool operator<(const Problem& other) const
-	{
-		if (L != other.L) return L < other.L;
-		return P < other.P;
-	}
-};
-
-unordered_map<int, Problem> dict;
-set<Problem> problems[101]; 
+unordered_map<int, pair<int,int>> dict;
+set<pair<int,int>> problems[101]; 
 
 void Add()
 {
 	int P, L, G;
 	cin >> P >> L >> G;
-	Problem p = { P,L,G };
-	problems[0].insert(p);	problems[G].insert(p);
-	dict[P] = p;
+	problems[0].insert({ L, P });	problems[G].insert({L, P});
+	dict[P] = {L, G};
 }
 
 void Solved(int p) 
 {
-	Problem target = dict[p] ;
+	int L = dict[p].first, G = dict[p].second;
 	dict.erase(p); 
-	problems[0].erase(target);
-	problems[target.G].erase(target);
+	problems[0].erase({L, p});
+	problems[G].erase({L, p});
 }
 
 void Recommend(int G, int x)
 {
-	if (x == -1) cout << problems[G].begin()->P << "\n";
-	else if (x == 1) cout << problems[G].rbegin()->P << "\n";
+	if (x == -1) cout << problems[G].begin()->second << "\n";
+	else if (x == 1) cout << problems[G].rbegin()->second<< "\n";
 }
 
 void Recommend2(int x) { Recommend(0, x); }
@@ -44,27 +34,14 @@ void Recommend3(int x, int L)
 {
 	if (x == -1)
 	{
-		auto it = problems[0].upper_bound({ 0,L,0 });
-		if (it != problems[0].begin())
-		{
-			--it;
-			if (it->L >= L)
-			{
-				if (it == problems[0].begin())
-				{
-					cout << "-1\n";
-					return;
-				}
-				--it;
-			}
-			cout << it->P << "\n";
-		}
-		else cout << "-1\n";
+		auto it = problems[0].lower_bound({ L,0 });
+		if (it == problems[0].begin()) cout << "-1\n";
+		else cout << prev(it)->second << "\n";
 	}
 	else if (x == 1)
 	{
-		auto it = problems[0].lower_bound({ 0,L,0 });
-		if (it != problems[0].end()) cout << it->P << "\n";
+		auto it = problems[0].lower_bound({ L,0 });
+		if (it != problems[0].end()) cout << it->second << "\n";
 		else cout << "-1\n";
 	}
 }
