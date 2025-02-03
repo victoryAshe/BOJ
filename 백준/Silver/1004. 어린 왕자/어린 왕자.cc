@@ -13,12 +13,11 @@ void Solution()
 	{
 		pair<int, int> c; int r;
 		cin >> c.first >> c.second >> r;
-		bool isStartInCircle = sqrt(pow(c.first - start.first, 2)+pow(c.second - start.second, 2))<r;
-		bool isEndInCircle = sqrt(pow(c.first - end.first, 2) + pow(c.second - end.second, 2)) <r;
-        if(isStartInCircle!=isEndInCircle) result++;
+		bool isStartInCircle = pow(c.first - start.first, 2)+pow(c.second - start.second, 2) < r*r;
+		bool isEndInCircle = pow(c.first - end.first, 2) + pow(c.second - end.second, 2) < r*r;
+        if(isStartInCircle != isEndInCircle) result++;
 	}
 	cout << result << "\n";
-
 }
 
 int main()
