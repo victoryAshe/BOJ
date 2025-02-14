@@ -39,18 +39,18 @@ int main()
 
 		if (isValid)
 		{
-			int winCntX = 0, winCntO = 0;
+			int xWin = 0, oWin = 0;
 			for (int i = 0; i < 8; i++)
 			{
 				char curResult = IsElemValid(s[dir[i][0]], s[dir[i][1]], s[dir[i][2]]);
-				if (curResult == 'X') winCntX++;
-				else if (curResult == 'O') winCntO++;
+				if (curResult == 'X') xWin++;
+				else if (curResult == 'O') oWin++;
 			}
 
-			if ((winCntX > 0 && winCntO > 0)
-				|| (winCntX > 0 && x != o + 1)
-				|| (winCntO > 0 && x != o)
-				|| (winCntX ==0 && winCntO ==0 && x+o!=9)) isValid = false;
+			if ((xWin > 0 && oWin > 0)
+				|| (xWin > 0 && x != o + 1)
+				|| (oWin > 0 && x != o)
+				|| (xWin ==0 && oWin ==0 && x+o!=9)) isValid = false;
 		}
 
 		if (isValid)
