@@ -16,8 +16,8 @@ long long bin_search(int left, int right, int target)
         long long mid = (left + right) / 2;
         int lowerBound = lower_bound(scores, scores + N, mid) - scores;
         int upperBound = upper_bound(scores, scores + N, mid + r) - scores;
-        long long lCnt = lowerBound;
-        long long rCnt = N - upperBound;
+        int lCnt = lowerBound;
+        int rCnt = N - upperBound;
         long long nSum = sum - p * rCnt + q * lCnt;
         if (nSum < S) left = mid + 1;
         else if (nSum >= S)
