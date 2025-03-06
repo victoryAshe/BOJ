@@ -8,8 +8,8 @@ const int NINF = -1e9;
 int M, N;
 int times[101][101][5];
 
-int Dir[5][2] = { {0, 0}, {0,1}, {0,-1}, {1,0},{-1,0} };
-int getTwice[5] = { NINF, 2, 1, 4, 3 };
+int Dir[5][2] = { {INF, INF}, {0,1}, {0,-1}, {1,0},{-1,0} };
+int getTwice[5] = { INF, 2, 1, 4, 3 };
 
 struct State {
 	int y, x, dir;
@@ -17,17 +17,11 @@ struct State {
 
 queue<State> Q;
 
-bool isValid(int ny, int nx)
-{
-	return !(ny<1 || ny > M || nx<1 || nx>N);
-}
-
 int CalcTime(State cur, int nextDir)
 {
-	int returnTime = 0;
 	if (nextDir != cur.dir)
-		returnTime = (nextDir == getTwice[cur.dir] ? 2 : 1);
-	return returnTime;
+		return (nextDir == getTwice[cur.dir] ? 2 : 1);
+	return 0;
 }
 
 void BFS(State& start, State& end)
@@ -60,7 +54,7 @@ void BFS(State& start, State& end)
 				ny += Dir[i][0]; 
 				nx += Dir[i][1];
 				
-				if (!isValid(ny, nx)) break;
+				if (ny<1 || ny > M || nx<1 || nx>N) break;
 				if (times[ny][nx][0] == NINF) break;
 				if (times[ny][nx][i] > nextTime)
 				{
@@ -78,7 +72,7 @@ void BFS(State& start, State& end)
 			ans = min(ans, times[end.y][end.x][i] + CalcTime({ end.y,end.x,i }, end.dir));
 	}
 
-	cout << ans ;
+	cout << ans;
 }
 
 int main()
@@ -99,7 +93,6 @@ int main()
 				for (int k = 0; k <= 4; k++) 
 					times[i][j][k] = INF;
 			}
-			
 		}
 	}
 
