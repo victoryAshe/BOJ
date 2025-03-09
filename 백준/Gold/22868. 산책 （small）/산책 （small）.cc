@@ -1,6 +1,7 @@
 #include <iostream>
-#include <set>
+#include <vector>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 const int INF = 1e9;
@@ -8,7 +9,7 @@ const int INF = 1e9;
 int N, M;
 int ans = 0;
 
-set<int> adj[10001];
+vector<int> adj[10001];
 bool visit[10001];
 
 struct State {
@@ -40,9 +41,10 @@ void BFS(int start, int end)
 		Q.pop();
 		if (curState.cur == end) continue;
 
-		for (auto it = adj[curState.cur].begin(); it != adj[curState.cur].end(); it++)
+		int size = adj[curState.cur].size();
+		for (int i = 0; i<size; i++)
 		{
-			int next = *it;
+			int next = adj[curState.cur][i];
 			int nextDist = curState.dist + 1;
 
 			if (visit[next]) continue;
@@ -74,9 +76,11 @@ int main()
 	for (int i = 0; i < M; i++)
 	{
 		int A, B; cin >> A >> B;
-		adj[A].insert(B);
-		adj[B].insert(A);
+		adj[A].push_back(B);
+		adj[B].push_back(A);
 	}
+
+	for (int i = 1; i <= N; i++) sort(adj[i].begin(), adj[i].end());
 
 	int S, E;
 	cin >> S >> E;
