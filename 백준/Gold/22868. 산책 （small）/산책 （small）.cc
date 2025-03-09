@@ -12,12 +12,9 @@ int ans = 0;
 vector<int> adj[10001];
 bool visit[10001];
 
-struct State {
-	int cur = 0, prev = 0, dist = INF;
-};
-
-queue<State> Q;
-State curVisit[10001];
+queue<int> Q;
+int parent[10001];
+int curDist[10001];
 
 void BFS(int start, int end)
 {
@@ -27,41 +24,42 @@ void BFS(int start, int end)
 	{
 		if (!visit[i])
 		{
-			curVisit[i].prev = 0;
-			curVisit[i].dist = INF;
+			parent[i] = 0;
+			curDist[i] = INF;
 		}
 	}
-	curVisit[start] = { start,0,0 };
-	curVisit[end] = { end, 0,INF };
+	curDist[start] = 0;
+	curDist[end] = INF;
 
-	Q.push({ start, 0, 0 });
+	Q.push(start);
 	while (!Q.empty())
 	{
-		State curState = Q.front();
+		int cur = Q.front();
 		Q.pop();
-		if (curState.cur == end) continue;
+		if (cur == end) continue;
 
-		int size = adj[curState.cur].size();
+		int size = adj[cur].size();
 		for (int i = 0; i<size; i++)
 		{
-			int next = adj[curState.cur][i];
-			int nextDist = curState.dist + 1;
+			int next = adj[cur][i];
+			int nextDist = curDist[cur] + 1;
 
 			if (visit[next]) continue;
-			if (curVisit[next].dist <= nextDist) continue;
-			curVisit[next] = { next, curState.cur, nextDist };
-			Q.push({ next, curState.cur, nextDist });
+			if (curDist[next] <= nextDist) continue;
+			parent[next] = cur;
+			curDist[next] = nextDist;
+			Q.push(next);
 		}
 	}
 
-	ans += curVisit[end].dist;
-	State curState = curVisit[end];
+	ans += curDist[end];
+	int cur = parent[end];
 	while (true)
 	{
-		visit[curState.cur] = true;
+		visit[cur] = true;
 
-		if (curState.prev == 0) break;
-		curState = curVisit[curState.prev];
+		if (parent[cur] == 0) break;
+		cur = parent[cur];
 	}
 }
 
@@ -71,7 +69,6 @@ int main()
 	cin.tie(NULL);
 
 	cin >> N >> M;
-	for (int i = 1; i <= N; i++) curVisit[i].cur = i;
 
 	for (int i = 0; i < M; i++)
 	{
