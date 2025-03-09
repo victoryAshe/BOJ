@@ -38,10 +38,8 @@ void BFS(int start, int end)
 		Q.pop();
 		if (cur == end) continue;
 
-		int size = adj[cur].size();
-		for (int i = 0; i<size; i++)
+		for (int next : adj[cur])
 		{
-			int next = adj[cur][i];
 			int nextDist = curDist[cur] + 1;
 
 			if (visit[next]) continue;
@@ -54,11 +52,9 @@ void BFS(int start, int end)
 
 	ans += curDist[end];
 	int cur = parent[end];
-	while (true)
+	while (cur!=0)
 	{
 		visit[cur] = true;
-
-		if (parent[cur] == 0) break;
 		cur = parent[cur];
 	}
 }
