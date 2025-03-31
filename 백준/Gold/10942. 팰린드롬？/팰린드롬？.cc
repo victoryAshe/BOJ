@@ -1,40 +1,40 @@
 #include <iostream>
 using namespace std;
 
-const int MAX = 2001;
-int nums[MAX];
-bool isPalindrome[MAX][MAX];
+int num[2001];
+bool isPalindrome[2001][2001];
 
 int main()
 {
-	cin.tie(NULL); cout.tie(NULL);
 	ios::sync_with_stdio(false);
+	cin.tie(NULL); cout.tie(NULL);
 
-	int N; 
+	int N, M;
 	cin >> N;
 	for (int i = 1; i <= N; i++)
 	{
-		cin >> nums[i];
+		cin >> num[i];
 		isPalindrome[i][i] = true;
-		if (nums[i - 1] == nums[i]) isPalindrome[i - 1][i] = 1;
 	}
 
-	for (int gap = 2; gap < N; gap++)
+	for (int i = 1; i < N; i++) if (num[i] == num[i + 1]) isPalindrome[i][i + 1] = true;
+
+	for (int len = 2; len<N; len++)
 	{
-		for (int i = 1; i <= N - gap; i++)
+		for (int i = 1; i + len <= N; i++)
 		{
-			int j = i + gap;
-			if (nums[i] == nums[j] && isPalindrome[i + 1][j - 1]) isPalindrome[i][j] = true;
+			int j = i + len;
+			if (num[i] == num[j] && isPalindrome[i + 1][j - 1])
+				isPalindrome[i][j] = true;
 		}
 	}
 
-	int M;
 	cin >> M;
 	for (int i = 0; i < M; i++)
 	{
-		int s, e;
-		cin >> s >> e;
-		cout << isPalindrome[s][e]<<"\n";
+		int S, E;
+		cin >> S >> E;
+		cout << isPalindrome[S][E] << "\n";
 	}
 
 	return 0;
