@@ -6,13 +6,13 @@ using namespace std;
 const long long MAX = 987654321;
 
 int N, E, v1, v2;
-vector<pair<int, int>> adj[801]; //adj[start][i] = {end, cost}
+vector<pair<int, int>> adj[801];
 
 long long Dijkstra(int S, int E)
 {
 	long long dist[801];
 	fill(dist, dist + 801, MAX);
-	priority_queue<pair<long long, int>> pq; // dist, end
+	priority_queue<pair<long long, int>> pq;
 	pq.push({ 0, S });
 	while (!pq.empty())
 	{
