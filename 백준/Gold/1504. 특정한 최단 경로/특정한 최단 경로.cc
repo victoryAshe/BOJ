@@ -57,7 +57,7 @@ int main()
 	long long latterFirst = Dijkstra(1, v2) + distBetween + Dijkstra(v1, N);
 
 	long long ans = min(formerFirst, latterFirst);
-	if (min(formerFirst, latterFirst) >= MAX) cout << "-1";
+	if (ans >= MAX) cout << "-1";
 	else cout << ans;
 	
 	return 0;
