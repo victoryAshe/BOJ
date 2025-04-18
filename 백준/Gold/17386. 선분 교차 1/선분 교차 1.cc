@@ -21,13 +21,7 @@ bool isIntersect(Segment s1, Segment s2)
 	long long p1p2 = ccw(p1, p2, p3) * ccw(p1, p2, p4);
 	long long p3p4 = ccw(p3, p4, p1) * ccw(p3, p4, p2);
 
-	if (p1p2 == 0 && p3p4 == 0)
-	{
-		if (p1 > p2) swap(p1, p2);
-		if (p3 > p4) swap(p3, p4);
-
-		return (p2 >= p3 && p4 >= p1);
-	}
+	if (p1p2 == 0 && p3p4 == 0) return false;
 
 	return (p1p2 <= 0 && p3p4 <= 0);
 }
