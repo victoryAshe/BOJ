@@ -16,11 +16,11 @@ int main()
 	for (int day = a; day <= N; day++)
 	{
 		dp[day] = (dp[day - 1] + dp[day - a]) % MOD;
-		if (day >= b) dp[day] = (dp[day] - dp[day - b] + 1000) % MOD;
+		if (day >= b) dp[day] = (dp[day] - dp[day - b] + MOD) % MOD;
 	}
 
 	int answer = dp[N];
-	if (N >= d) answer = (answer + 1000 - dp[N - d]) % MOD;
+	if (N >= d) answer = (answer + MOD - dp[N - d]) % MOD;
 
 	cout << answer;
 	return 0;
