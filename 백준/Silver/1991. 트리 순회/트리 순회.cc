@@ -1,7 +1,5 @@
-// 트리 순회: https://www.acmicpc.net/problem/1991
 #include <iostream>
 #include <vector>
-#include <functional>
 using namespace std;
 
 struct Node
@@ -10,22 +8,10 @@ public:
 	char val;
 	Node* left = NULL;
 	Node* right = NULL;
-	Node(int v)
-	{
-		val = v;
-	}
+	Node(int v) { val = v; }
 };
 
-struct findNode : public binary_function<Node, char, bool>
-{
-public:
-	bool operator()(const Node a, char b) const
-	{
-		return (a.val == b);
-	}
-};
-
-void pre(Node *n)
+void pre(Node* n)
 {
 	cout << n->val;
 	if (n->left != nullptr)
@@ -65,29 +51,25 @@ int main()
 		tree.push_back(*node);
 	}
 
-	// 노드 연결
 	for (int i = 0; i < N; i++)
 	{
 		char v, l, r;
 		cin >> v >> l >> r;
 
-		int Vidx = find_if(tree.begin(), tree.end(), bind2nd(findNode(), v)) - tree.begin();
+		int Vidx = v - 'A';
 
 		if (l != '.')
 		{
-			int Lidx = 
-				find_if(tree.begin(), tree.end(), bind2nd(findNode(), l)) - tree.begin();
+			int Lidx = l - 'A';
 			tree[Vidx].left = &tree[Lidx];
 		}
 		if (r != '.')
 		{
-			int Ridx = 
-				find_if(tree.begin(), tree.end(), bind2nd(findNode(), r)) - tree.begin();
+			int Ridx = r - 'A';
 			tree[Vidx].right = &tree[Ridx];
 		}
 	}
 
-	// 각각의 순회에 대한 출력
 	pre(&tree[0]);
 	cout << endl;
 
