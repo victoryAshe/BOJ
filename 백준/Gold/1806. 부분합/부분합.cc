@@ -18,14 +18,14 @@ int main()
 	int sum = num[0];
 	while (start <= end && end < N)
 	{
-		if (sum >= S) ans = min(ans, end - start + 1);
-		if (sum < S)
+		if (sum >= S)
+		{
+			ans = min(ans, end - start + 1);
+			sum -= num[start++];
+		}
+		else 
 		{
 			sum += num[++end];
-		}
-		else
-		{
-			sum -= num[start++];
 		}
 	}
 
