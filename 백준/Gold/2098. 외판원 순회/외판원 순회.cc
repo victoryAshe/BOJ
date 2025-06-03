@@ -16,19 +16,20 @@ int DFS(int cur, int state, int& N)
 		return W[cur][0];
 	}
 
-	if (dp[cur][state] != -1) return dp[cur][state];
-	dp[cur][state] = INF;
+	int &ret = dp[cur][state];
+	if (ret != -1) return ret;
+	ret = INF;
 
 	for (int i = 0; i < N; i++)
 	{
 		if (W[cur][i] == 0) continue; // 이동 불가
 		if ((state & (1 << i)) == (1 << i)) continue; // 이미 방문
 
-		dp[cur][state] = 
-			min(dp[cur][state], W[cur][i] + DFS(i, (state | (1 << i)), N));
+		ret = min(ret, 
+			W[cur][i] + DFS(i, (state | (1 << i)), N));
 	}
 
-	return dp[cur][state];
+	return ret;
 }
 
 int main()
