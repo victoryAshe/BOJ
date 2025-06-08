@@ -18,11 +18,10 @@ void Solution()
 	int maxYear = LCM(M, N);
 	
 	bool isValid = true;
-	while (true)
+	while (x!=y)
 	{
 		if (x > y) y += N;
-		else if (x < y) x += M;
-		else break;
+		else x += M;
 
 		if (x > maxYear || y > maxYear)
 		{
