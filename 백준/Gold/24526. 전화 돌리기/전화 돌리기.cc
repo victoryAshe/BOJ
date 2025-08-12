@@ -5,7 +5,7 @@ using namespace std;
 
 int TopologySort(int N, vector<vector<int>>& adj, vector<int> &inDegree)
 {
-    vector<int> order;
+    vector<int> order; order.reserve(N);
     
     queue<int> Q;
     for (int i = 1; i <= N; i++)
