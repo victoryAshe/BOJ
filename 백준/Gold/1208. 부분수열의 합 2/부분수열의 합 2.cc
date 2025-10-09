@@ -6,15 +6,15 @@ using namespace std;
 using ll = long long;
 const int MAX = 41;
 
-int arr[MAX];
+ll arr[MAX];
 int N, S;
 
 // Doubling으로 모든 부분합 생성
-vector<int> BuildSum(int l, int r)
+vector<ll> BuildSum(int l, int r)
 {
     int k = r - l;
 
-    vector<int> sum;
+    vector<ll> sum;
     sum.reserve(1 << k);
     sum.push_back(0); // 공집합
 
@@ -41,17 +41,39 @@ int main()
     for (int i = 0; i < N; i++) cin >> arr[i];
 
     int mid = N / 2;
-    vector<int> Left = BuildSum(0, mid);
-    vector<int> Right = BuildSum(mid, N);
+    vector<ll> Left = BuildSum(0, mid);
+    vector <ll> Right = BuildSum(mid, N);
 
+    sort(Left.begin(), Left.end());
     sort(Right.begin(), Right.end());
 
     ll ans = 0;
-    for (int x : Left)
+
+    int i = 0, j = (int)Right.size() - 1;
+    int LEFT_SIZE = Left.size();
+
+    while (i < LEFT_SIZE && j >= 0)
     {
-        int target = S - x;
-        ll cnt = upper_bound(Right.begin(), Right.end(), target) - lower_bound(Right.begin(), Right.end(), target);
-        ans += cnt;
+        ll sum = Left[i] + Right[j];
+        if (sum < S) ++i;
+        else if (sum > S) --j;
+        else
+        {
+            ll left_val = Left[i], right_val = Right[j];
+            ll left_cnt = 0, right_cnt = 0;
+            while (i < LEFT_SIZE && Left[i] == left_val) 
+            { 
+                ++left_cnt; 
+                ++i; 
+            }
+
+            while (j >= 0 && Right[j] == right_val)
+            {
+                ++right_cnt;
+                --j;
+            }
+            ans += left_cnt * right_cnt;
+        }
     }
 
     if (S == 0) ans--;
