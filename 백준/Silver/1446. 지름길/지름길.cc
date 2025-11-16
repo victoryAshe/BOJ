@@ -1,47 +1,47 @@
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <cmath>
 using namespace std;
 
-const int MAX = 10001;
+const int MAX = 10'001;
 long dist[MAX];
-vector<pair<int, int>> adj[MAX];
-int main()
+vector<pair<int,int>> adj[MAX];
+
+void CalcDist(long& d, long val)
 {
-	cin.tie(NULL);
-	ios::sync_with_stdio(false);
+    if (d == 0) d = val;
+    else d = min(d, val);
+}
 
-	int N, D;
-	cin >> N >> D;
-	dist[D] = D;
-	for (int i = 1; i <= N; i++)
-	{
-		int start, end, distance;
-		cin >> start >> end >> distance;
-		adj[start].push_back(make_pair(end, distance));
-	}
-	
-	for (int i = 0; i <= D; i++)
-	{
-		if (i > 0)
-		{
-			if (dist[i] == 0) dist[i] = dist[i - 1] + 1;
-			else  dist[i] = min(dist[i], dist[i - 1] + 1); 
-		}
-		int size = adj[i].size();
-		if (size == 0) continue;
-		for(int j = 0; j<size; j++)
-		{
-			pair<int, int> cur = adj[i][j];
-			if (cur.first > D) continue;
-			long nextDist = dist[i] + cur.second;
-			if (dist[cur.first] == 0) dist[cur.first] = nextDist;
-			else dist[cur.first] = min(dist[cur.first], nextDist);
-			dist[D] = min(dist[D], dist[cur.first] + D - cur.first);
-		}
-	}
+int main() {
+    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-	cout << dist[D];
-	return 0;
+    int N, D;
+    cin >> N >> D;
+
+    int start, end, d;
+    for (int i = 0; i < N; i++)
+    {
+        cin >> start >> end >> d;
+        if (end > D) continue;
+        adj[start].push_back({ end, d });
+    }
+
+    for (start = 0; start <= D; start++)
+    {
+        if (start > 0)
+        {
+            CalcDist(dist[start], dist[start - 1] + 1);
+        }
+
+        for (auto p : adj[start])
+        {
+            end = p.first, d = p.second;
+            CalcDist(dist[end], dist[start] + d);
+
+            dist[D] = min(dist[D], dist[end] + D - end);
+        }
+    }
+
+    cout << dist[D];
+    return 0;
 }
