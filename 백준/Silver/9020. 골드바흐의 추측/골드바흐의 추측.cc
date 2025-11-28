@@ -7,7 +7,8 @@ vector<bool> prime(num + 1, true);
 
 void Eratos()
 {
-    for (int i = 2; i * i <= num; i++)
+    int max_bound = 10'001 / 2 + 1;
+    for (int i = 2; i * i <= max_bound; i++)
     {
         if (prime[i]){
             for (int k = i * i; k <= num; k += i)
@@ -18,16 +19,14 @@ void Eratos()
 
 void Solution(int n)
 {
-    int max_bound = n/2;
-    pair<int, int> ans;
-    for (int i = 2; i <= max_bound; i++)
+    for (int i = n/2; i >1; i--)
     {
         if (prime[i] && prime[n-i])
         {
-            ans = { i, n - i };
+            cout << i << " " << n-i << "\n";
+            break;
         }
     }
-    cout << ans.first << " " << ans.second << '\n';
 }
 
 int main() {
