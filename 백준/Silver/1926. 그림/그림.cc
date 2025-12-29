@@ -1,59 +1,71 @@
 #include <iostream>
-#include <cmath>
-using namespace std;
+#include <queue>
 
+struct Node { int y, x; };
+
+const int MAX = 501;
+bool board[MAX][MAX];
+bool visit[MAX][MAX];
 int n, m;
+
+int dx[4] = { 1,0,-1,0 };
+int dy[4] = { 0,1,0,-1 };
+
 int drawingCnt = 0, largestArea = 0;
 
-bool board[501][501];
-bool visit[501][501];
-
-pair<int, int> dir[4] = { {-1,0},{1,0},{0,-1},{0,1} };
-
-int DFS(pair<int, int> p, int curArea)
+int BFS(int i, int j)
 {
-    int i = p.first, j = p.second;
-    visit[i][j] = true;
+	std::queue<Node> Q;
+	Q.push({ i,j });
+	visit[i][j] = true;
+	int curArea = 0;
+	
+	while (!Q.empty())
+	{
+		Node cur = Q.front();
+		Q.pop();
+		curArea++;
 
-    for (int k = 0; k < 4; k++)
-    {
-        int nextI = i + dir[k].first;
-        int nextJ = j + dir[k].second;
-        if (nextI < 0 || nextI >= n || nextJ < 0 || nextJ >= m) continue;
+		for (int dir = 0; dir < 4; dir++)
+		{
+			int ny = cur.y + dy[dir];
+			int nx = cur.x + dx[dir];
+			
+			if (ny < 0 || ny >= n || nx < 0 || nx >= m ) continue;
+			if (!board[ny][nx] || visit[ny][nx]) continue;
+			visit[ny][nx] = 1;
+			Q.push({ ny,nx });
+		}
+	}
 
-        if (board[nextI][nextJ] && !visit[nextI][nextJ])
-        {
-            curArea += DFS({ nextI, nextJ }, 1);
-        }
-    }
-    return curArea;
+	return curArea;
 }
 
 int main()
 {
-    cin.tie(NULL); ios::sync_with_stdio(false);
+    std::ios::sync_with_stdio(false);
+	std::cin.tie(NULL); std::cout.tie(NULL);
+	std::cin >> n >> m;
 
-    cin >> n >> m;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            cin >> board[i][j];
-        }
-    }
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			std::cin >> board[i][j];
+		}
+	}
 
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (board[i][j] && !visit[i][j])
-            {
-                largestArea = max(largestArea, DFS({ i,j }, 1));
-                drawingCnt++;
-            }
-        }
-    }
-    cout << drawingCnt << "\n" << largestArea;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			if (!board[i][j] || visit[i][j]) continue;
 
+			largestArea = std::max(largestArea, BFS(i, j));
+			drawingCnt++;
+		}
+	}
+
+	std::cout << drawingCnt << "\n" << largestArea;
     return 0;
 }
