@@ -1,20 +1,25 @@
 #include <iostream>
+#include <cstring>
 
 const int MAX = 1'001;
 const int MOD = 1'000'000;
 
-// bottom-up
-
+// top-down
+int N;
 int dp[MAX][2][3];
-int CalcSum(int i)
-{
-    auto* cur = dp[i];
-    int sum = 0;
 
-    for (int L = 0; L < 2; L++)
-        for (int A = 0; A < 3; A++)
-            sum = (sum + cur[L][A]) % MOD;
-    return sum;
+int DP(int day, int late, int absent)
+{
+    if (late == 2) return 0;
+    if (absent == 3) return 0;
+    if (day > N) return 1;
+
+    int& cache = dp[day][late][absent];
+    if (cache != -1) return cache;
+
+    return cache = (DP(day + 1, late, 0) 
+        + DP(day + 1, late + 1, 0) 
+        + DP(day + 1, late, absent + 1)) % MOD;
 }
 
 int main()
@@ -22,26 +27,10 @@ int main()
     std::ios::sync_with_stdio(false); 
     std::cin.tie(NULL); std::cout.tie(NULL);
 
-    auto* cur = dp[1];
-    cur[0][0] = cur[0][1] = cur[1][0] = 1;
+    memset(dp, -1, sizeof(dp));
 
-    int N;
     std::cin >> N;
-
-    for (int i = 2; i <= N; i++)
-    {
-        cur = dp[i];
-        auto* prev = dp[i - 1];
-        cur[0][0] = (prev[0][0] + prev[0][1] + prev[0][2]) % MOD;
-        cur[0][1] = prev[0][0];
-        cur[0][2] = prev[0][1];
-
-        cur[1][0] = CalcSum(i-1);
-        cur[1][1] = prev[1][0];
-        cur[1][2] = prev[1][1];
-    }
-
-    std::cout << CalcSum(N);
+    std::cout << DP(1,0,0);
 
     return 0;
 }
