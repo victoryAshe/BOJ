@@ -5,8 +5,8 @@ const int MOD = 10'007;
 const int MAX = 1'001;
 
 int N, M, H;
-int block[51][10];
-int height[51][MAX];
+int block[50][10];
+int height[50][MAX];
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
     std::cin.ignore();
 
     char cString[260];
-    for (int i = 1; i <= N; i++)
+    for (int i = 0; i < N; i++)
     {
         std::cin.getline(cString, 260, '\n');
         std::istringstream iss(cString);
@@ -28,13 +28,13 @@ int main()
         }
     }
 
-    height[1][0] = 1;
+    height[0][0] = 1;
     for (int j = 0; j < M; j++)
     {
-        height[1][block[1][j]] = 1;
+        height[0][block[0][j]] = 1;
     }
 
-    for (int i = 2; i<=N; i++)
+    for (int i = 1; i<N; i++)
     {
         for (int j = 0; j <= H; j++)
         {
@@ -53,7 +53,7 @@ int main()
         }
     }
 
-    std::cout << height[N][H];
+    std::cout << height[N-1][H];
 
     return 0;
 }
