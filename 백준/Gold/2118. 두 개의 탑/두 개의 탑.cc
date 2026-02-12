@@ -17,28 +17,27 @@ int main()
         total += dist[i];
     }
 
-    ll* arr = new ll[2 * N + 1];
-    for (int i = 0; i < 2 * N; ++i)
-    {
-        arr[i + 1] = arr[i] + dist[i % N];
-    }
+    
+    int half = total / 2;
+    int ans = 0;
 
-    ll half = total / 2;
-    ll ans = 0;
+    int s = 0, e = 0;
+    int cur = 0;
 
-    int End = 0;
-    for (int Start = 0; Start < N; ++Start)
-    {
-        if (End < Start) End = Start;
+    while (s < N) {
 
-        while (End + 1 <= Start + N && (arr[End + 1] - arr[Start]) <= half)
-        {
-            End += 1;
+        // e를 늘릴 수 있을 때까지 증가
+        while (e < s + N && cur + dist[e % N] <= half) {
+            cur += dist[e % N];
+            e++;
         }
 
-        ans = std::max(ans, arr[End] - arr[Start]);
-    }
+        ans = std::max(ans, cur);
 
+        // s를 한 칸 이동
+        cur -= dist[s];
+        s++;
+    }
     std::cout << ans;
 
     return 0;
