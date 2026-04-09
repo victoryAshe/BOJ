@@ -20,19 +20,11 @@ bool TisAvailable(int T)
             return true;
         }
 
-        // 타임 머신을 이용해 과거로 한 번 이동
-        int next_step = start - T;
+        int next_step = NextAvailableDay[start - T];
 
-        // 이용 불가능할 경우
-        while (!bTimeMachineAvailable[next_step])
+        if (next_step > N)
         {
-            next_step += 1;
-
-            // 끝까지 타임머신이 이용 불가능할 경우
-            if (next_step == N)
-            {
-                return false;
-            }
+            return false;
         }
 
         start = next_step;
