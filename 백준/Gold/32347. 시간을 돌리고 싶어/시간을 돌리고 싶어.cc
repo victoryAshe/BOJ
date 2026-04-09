@@ -21,9 +21,7 @@ bool TisAvailable(int T)
         }
 
         // 지금 가능한 가장 빠른 Timemachine Available 날짜.
-        int next_step = NextAvailableDay[start - T];
-
-        start = next_step;
+        start = NextAvailableDay[start - T];
     }
 
     return false;
