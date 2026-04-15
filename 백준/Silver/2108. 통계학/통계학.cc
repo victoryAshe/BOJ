@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cmath>
 
-using ll = long long;
 
 int main()
 {
@@ -12,11 +11,11 @@ int main()
     int N; 
     std::cin >> N;
 
-    std::vector<ll> nums(N);
+    std::vector<int> nums(N);
 
-    ll mean, mid;
+    int mean, mid;
 
-    std::vector<ll> modes;
+    std::vector<int> modes;
     int modeCount = 0;
 
     double sum = 0;
@@ -54,7 +53,7 @@ int main()
     if (static_cast<int>(modes.size()) == 1) std::cout << modes[0];
     else std::cout << modes[1];
      
-    ll range = nums[N - 1] - nums[0];
+    int range = nums[N - 1] - nums[0];
     std::cout << "\n" << range;
 
     return 0;
