@@ -1,7 +1,8 @@
 #include <iostream>
 #include <queue>
-#include <cmath>
 #include <cstring>
+
+using namespace std;
 
 const int MAX = 100'001;
 int parent[MAX];
@@ -26,24 +27,21 @@ void Merge(int u, int v)
 
 int main()
 {
-    std::ios::sync_with_stdio(false); std::cin.tie(NULL); std::cout.tie(NULL);
+    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
     int N, M;
-    std::cin >> N >> M;
+    cin >> N >> M;
 
-    for (int i = 1; i <= N; i++)
-    {
-        parent[i] = i;
-    }
+    for (int i = 1; i <= N; i++) parent[i] = i;
 
     memset(depth, 1, sizeof(int) * (N + 1));
 
-    std::priority_queue<std::pair<int, std::pair<int, int>>> PQ;
+    priority_queue<pair<int, pair<int, int>>> PQ;
   
     for (int i = 0; i < M; i++)
     {
         int A, B, C;
-        std::cin >> A >> B >> C;
+        cin >> A >> B >> C;
         PQ.push({ -C, {A, B} });
     }
 
