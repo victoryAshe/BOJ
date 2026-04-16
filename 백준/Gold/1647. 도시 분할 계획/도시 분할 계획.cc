@@ -1,63 +1,67 @@
 #include <iostream>
 #include <queue>
-using namespace std;
+#include <cmath>
+#include <cstring>
 
-const int MAX = 10e6+1;
+const int MAX = 100'001;
 int parent[MAX];
 int depth[MAX];
-priority_queue<pair<int, pair<int, int>>> pq;
 
-int find(int i)
+int Find(int x)
 {
-	if (parent[i] == i) return i;
-	return parent[i] = find(parent[i]);
+    if (parent[x] == x) return x;
+    return parent[x] = Find(parent[x]);
 }
 
-void merge(int u, int v)
+void Merge(int u, int v)
 {
-	int x = find(u);
-	int y = find(v);
-	if (depth[x] > depth[y]) swap(x, y);
-	parent[x] = y;
-	if (depth[x] == depth[y]) depth[y] ++;
+    u = Find(u);
+    v = Find(v);
+    if (u == v) return;
+
+    if (depth[u] > depth[v]) std::swap(u, v);
+    parent[u] = v;
+    if (depth[u] == depth[v]) depth[v]++;
 }
 
 int main()
 {
-	cin.tie(NULL);
-	ios::sync_with_stdio(false);
+    std::ios::sync_with_stdio(false); std::cin.tie(NULL); std::cout.tie(NULL);
 
-	int N, M;
-	cin >> N >> M;
+    int N, M;
+    std::cin >> N >> M;
 
-	for (int i = 1; i <= N; i++)
-	{
-		parent[i] = i;
-		depth[i] = 1;
-	}
+    for (int i = 1; i <= N; i++)
+    {
+        parent[i] = i;
+    }
 
-	for (int i = 0; i < M; i++)
-	{
-		int u, v, cost;
-		cin >> u >> v >> cost;
-		pq.push({ -cost, {u,v} });
-	}
+    memset(depth, 1, sizeof(int) * (N + 1));
 
-	int dist = 0, lastCost = 0;
-	while (!pq.empty())
-	{
-		int cost = -pq.top().first;
-		int u = pq.top().second.first;
-		int v = pq.top().second.second;
-		pq.pop();
-		
-		if (find(u) == find(v)) continue;
-		
-		merge(u, v);
-		dist += cost;
-		lastCost = cost;
-	}
+    std::priority_queue<std::pair<int, std::pair<int, int>>> PQ;
+  
+    for (int i = 0; i < M; i++)
+    {
+        int A, B, C;
+        std::cin >> A >> B >> C;
+        PQ.push({ -C, {A, B} });
+    }
 
-	cout << dist-lastCost;
-	return 0;
+    int ans = 0, lastCost = 0;
+    while (!PQ.empty())
+    {
+        int cost = -PQ.top().first;
+        int u = PQ.top().second.first;
+        int v = PQ.top().second.second;
+        PQ.pop();
+
+        if (Find(u) == Find(v)) continue;
+
+        Merge(u, v);
+        ans += cost;
+        lastCost = cost;
+    }
+        
+    std::cout << ans - lastCost;
+    return 0;
 }
