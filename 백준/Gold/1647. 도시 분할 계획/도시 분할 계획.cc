@@ -1,7 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <cstring>
-
 using namespace std;
 
 const int MAX = 100'001;
@@ -32,9 +30,11 @@ int main()
     int N, M;
     cin >> N >> M;
 
-    for (int i = 1; i <= N; i++) parent[i] = i;
-
-    memset(depth, 1, sizeof(int) * (N + 1));
+    for (int i = 1; i <= N; i++) 
+    {
+        parent[i] = i;
+        depth[i] = 1;
+    }
 
     priority_queue<pair<int, pair<int, int>>> PQ;
   
