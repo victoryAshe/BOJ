@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <queue>
+#include <vector>
 
 const int MAX = 100'001;
 using P = std::pair<int, int>;
@@ -9,9 +10,6 @@ using P = std::pair<int, int>;
 int parent[MAX];
 int depth[MAX];
 
-P X[MAX];
-P Y[MAX];
-P Z[MAX];
 std::priority_queue<std::pair<int, P>> edges;
 
 long long answer = 0;
@@ -40,7 +38,9 @@ int main()
 	int N;
 	std::cin >> N;
 
-	for (int i = 1; i <= N; i++)
+	std::vector<P> X(N), Y(N), Z(N);
+
+	for (int i = 0; i < N; i++)
 	{
 		int x, y, z;
 		std::cin >> x >> y >> z;
@@ -53,15 +53,15 @@ int main()
 		depth[i] = 1;
 	}
 
-	sort(X + 1, X + N + 1);
-	sort(Y + 1, Y + N + 1);
-	sort(Z + 1, Z + N + 1);
+	sort(X.begin(), X.end());
+	sort(Y.begin(), Y.end());
+	sort(Z.begin(), Z.end());
 
 	for (int i = 1; i < N; i++)
 	{
-		edges.push({ -abs(X[i + 1].first - X[i].first), {X[i].second , X[i + 1].second} });
-		edges.push({ -abs(Y[i + 1].first - Y[i].first), {Y[i].second, Y[i + 1].second} });
-		edges.push({ -abs(Z[i + 1].first - Z[i].first), {Z[i].second, Z[i + 1].second} });
+		edges.push({ -abs(X[i].first - X[i-1].first), {X[i-1].second , X[i].second} });
+		edges.push({ -abs(Y[i].first - Y[i-1].first), {Y[i-1].second, Y[i].second} });
+		edges.push({ -abs(Z[i].first - Z[i-1].first), {Z[i-1].second, Z[i].second} });
 	}
 
 	while (!edges.empty())
@@ -71,7 +71,7 @@ int main()
 		int v = edges.top().second.second;
 		edges.pop();
 		if (Find(u) == Find(v)) continue;
-
+	
 		Merge(u, v);
 		answer += dist;
 	}
